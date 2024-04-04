@@ -4,9 +4,7 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from schemas.UserSchema import UserLoginSchema, UserResponseSchema, UserCreateSchema, UserUpdateSchema, UserDeleteSchema
 from models.User import User as UserModel
-from config.database import engine
-from config.database import conn
-import logging
+from config.database import engine, conn
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 import jwt

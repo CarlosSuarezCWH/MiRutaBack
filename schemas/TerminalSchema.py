@@ -14,3 +14,4 @@ class TerminalResponseSchema(BaseModel):
     id: int
     name: str
     location: str
+

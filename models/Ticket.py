@@ -1,9 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, Date, Enum, DECIMAL
 from config.database import meta
 
-Ticket = Table(
-    "tickets",
-    meta,
+Ticket = Table("tickets",meta,
     Column("id", Integer, primary_key=True),
     Column("user_id", Integer),
     Column("route_id", Integer),
