@@ -1,33 +1,28 @@
-from fastapi import Depends, FastAPI, HTTPException, APIRouter
-from sqlalchemy.orm import Session, sessionmaker
-from config.database import conn, engine
-from routes.ticket_routes import get_ticket
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
 import qrcode
+from io import BytesIO
+from fastapi.responses import StreamingResponse
+from typing import Optional
+from datetime import date
+from schemas.TicketSchema import TicketResponseSchema
 
 app = FastAPI()
-router = APIRouter()
 
-SessionLocal = sessionmaker(bind=engine)
+@app.post("/generate_qr/", response_class=StreamingResponse)
+async def generate_qr(ticket: TicketResponseSchema):
+    # Convertir los datos del ticket en una cadena para generar el QR
+    ticket_data_str = str(ticket.json())
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    # Crear un objeto BytesIO para almacenar el QR generado
+    qr_image_stream = BytesIO()
 
-@router.post("/generate-qr/{ticket_id}")
-async def generate_qr(ticket_id: int):
-    ticket = get_ticket(ticket_id, db=Depends(get_db))
-    return ticket
-    #qr = qrcode.QRCode(
-    #    version=1,
-    #    error_correction=qrcode.constants.ERROR_CORRECT_L,
-    #    box_size=10,
-    #    border=4,
-    #)
-    #qr.add_data(ticket)
-    #qr.make(fit=True)
-    #img = qr.make_image(fill_color="black", back_color="white")
-    #img.save(f"resources/images_qr/ticket_{ticket_id}.png")
-    #return {"message": "QR code generated successfully"}
+    # Generar el código QR
+    qr = qrcode.make(ticket_data_str)
+
+    # Guardar el código QR en el objeto BytesIO
+    qr.save(qr_image_stream, format="PNG")
+
+    # Convertir el objeto BytesIO a una respuesta de transmisión
+    qr_image_stream.seek(0)
+    return qr_image_stream

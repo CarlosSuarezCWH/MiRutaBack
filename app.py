@@ -15,7 +15,7 @@ from routes import (
     ticket_type_routes,
     transaction_routes,
     user_routes,
-    qr_generation_api,
+    #qr_generation_api,
 )
 
 app = FastAPI()
@@ -52,7 +52,7 @@ app.include_router(terminal_routes.router, prefix="/api/v1", tags=["Terminales"]
 app.include_router(bus_routes.router, prefix="/api/v1", tags=["Autobuses"])
 app.include_router(role_routes.router, prefix="/api/v1", tags=["Roles de Usuario"])
 app.include_router(permission_routes.router, prefix="/api/v1", tags=["Permisos"])
-app.include_router(qr_generation_api.router, prefix="/api/v1", tags=["Generación de Códigos QR"])
+#app.include_router(qr_generation_api.router, prefix="/api/v1", tags=["Generación de Códigos QR"])
 
 # Manejo de errores (opcional: considere usar un manejador de excepciones global)
 
