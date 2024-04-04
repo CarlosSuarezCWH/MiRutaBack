@@ -96,7 +96,8 @@ def register(user: UserCreateSchema):
             "full_name": user.full_name,
             "email": user.email,
             "password": hashed_password,
-            "rol_id": user.rol_id
+            "rol_id": user.rol_id,
+            "registration_date": user.registration_date
         }
         
         # Insertar usuario en la base de datos
