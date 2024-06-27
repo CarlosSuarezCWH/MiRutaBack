@@ -1,6 +1,7 @@
 # Mi Ruta
 
-Descripción breve de tu aplicación.
+Aplicacion basada en fastapi para generar el backend de la app basada en rutas de autobuses, tiempo de llegada y mas
+
 
 ## Instalación
 
